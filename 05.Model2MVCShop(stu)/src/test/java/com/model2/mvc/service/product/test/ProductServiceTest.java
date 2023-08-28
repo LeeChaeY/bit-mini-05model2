@@ -25,7 +25,11 @@ import com.model2.mvc.service.product.ProductService;
  * ㅇ @Test : 테스트 실행 소스 지정
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+																	"classpath:config/context-aspect.xml",
+																	"classpath:config/context-mybatis.xml",
+																	"classpath:config/context-transaction.xml" })
 public class ProductServiceTest {
 
 	//==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
@@ -33,7 +37,7 @@ public class ProductServiceTest {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 
-	//	@Test
+//	@Test
 	public void testAddProduct() throws Exception {
 
 		Product product = new Product();
@@ -45,7 +49,7 @@ public class ProductServiceTest {
 
 		productService.addProduct(product);
 
-		product = productService.getProduct(10010);
+		product = productService.getProduct(10012);
 
 		//==> console 확인
 		//System.out.println(user);
@@ -60,12 +64,12 @@ public class ProductServiceTest {
 		//		Assert.assertEquals(1, userService.removeUser(user.getUserId()));
 	}
 
-	//	@Test
+//	@Test
 	public void testGetProduct() throws Exception {
 
 		Product product = new Product();
 
-		product = productService.getProduct(10010);
+		product = productService.getProduct(10012);
 
 		//==> console 확인
 		System.out.println(product);
@@ -81,10 +85,10 @@ public class ProductServiceTest {
 		Assert.assertNotNull(productService.getProduct(10001));
 	}
 
-	//	@Test
-	public void testUpdateUser() throws Exception{
+//	@Test
+	public void testUpdateProduct() throws Exception{
 
-		Product product = productService.getProduct(10010);
+		Product product = productService.getProduct(10012);
 		Assert.assertNotNull(product);
 
 		Assert.assertEquals("testProdName", product.getProdName());
@@ -101,7 +105,7 @@ public class ProductServiceTest {
 
 		productService.updateProduct(product);
 
-		product = productService.getProduct(10010);
+		product = productService.getProduct(10012);
 		Assert.assertNotNull(product);
 
 		//==> console 확인
@@ -116,7 +120,7 @@ public class ProductServiceTest {
 	}
 
 	//==>  주석을 풀고 실행하면....
-	//	 @Test
+//	 @Test
 	public void testGetProductListAll() throws Exception{
 
 		Search search = new Search();
@@ -168,7 +172,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}
 
-	//	 @Test
+//	@Test
 	public void testGetProductListByProdName() throws Exception{
 
 		Search search = new Search();
@@ -179,7 +183,7 @@ public class ProductServiceTest {
 		Map<String,Object> map = productService.getProductList(search);
 
 		List<Object> list = (List<Object>)map.get("list");
-		Assert.assertEquals(1, list.size());
+		Assert.assertEquals(2, list.size());
 
 		//==> console 확인
 		//System.out.println(list);
@@ -203,7 +207,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}
 
-	//	 @Test
+//	@Test
 	public void testGetProductListByPrice() throws Exception{
 
 		Search search = new Search();
@@ -238,7 +242,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}	 
 
-	//	 @Test
+//	 @Test
 	public void testGetProductListOrderByPriceAsc() throws Exception{
 
 		Search search = new Search();
@@ -271,7 +275,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}	 
 
-	//	 @Test
+//	@Test
 	public void testGetProductListOrderByPriceDesc() throws Exception{
 
 		Search search = new Search();
@@ -304,7 +308,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}	 
 
-	//	 @Test
+//	@Test
 	public void testGetProductListByPriceOrderByPriceAsc() throws Exception{
 
 		Search search = new Search();
@@ -341,7 +345,7 @@ public class ProductServiceTest {
 		System.out.println(totalCount);
 	}	 
 
-	//	@Test
+//	@Test
 	public void testGetProductListByProdNameOrderByPriceDesc() throws Exception{
 
 		Search search = new Search();

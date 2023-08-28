@@ -37,6 +37,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 
 	public Purchase getPurchase(int tranNo) throws Exception {
 		Purchase purchase = sqlSession.selectOne("PurchaseMapper.getPurchase", tranNo);
+		
 		purchase.setBuyer((User)sqlSession.selectOne("UserMapper.getUser", purchase.getBuyer().getUserId()));
 		purchase.setPurchaseProd((Product)sqlSession.selectOne("ProductMapper.getProduct", purchase.getPurchaseProd().getProdNo()));
 		purchase.setPaymentOption(purchase.getPaymentOption().trim());
@@ -66,7 +67,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		}
 		
 		map.put("search", search);
-		map.put("userId", "%"+userId.toLowerCase()+"%");
+		map.put("userId", userId);
 		map.put("startRowNum", (search.getCurrentPage()-1) * search.getPageSize() + 1);
 		map.put("endRowNum", search.getCurrentPage() * search.getPageSize());
 		
@@ -98,7 +99,7 @@ Map<String,Object> map = new HashMap<String, Object>();
 		}
 		
 		map.put("search", search);
-		map.put("userId", "%"+userId.toLowerCase()+"%");
+		map.put("userId", userId);
 		
 		return sqlSession.selectOne("PurchaseMapper.getTotalCount", map);
 	}

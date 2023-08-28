@@ -93,7 +93,7 @@
   		FROM (SELECT * 
   					FROM transaction 
   					<where>
-  						LOWER(buyer_id) = #{userId}
+  						buyer_id = #{userId}
   						<if test='!beginDate.equals("") and !endDate.equals("")'>
 	  						<if test='endDate.equals("SYSDATE")'>
 	  							AND  order_data BETWEEN #{beginDate} AND SYSDATE
@@ -112,7 +112,7 @@
 					 FROM (SELECT *
 					 			FROM transaction 
 					 			<where>
-		  						LOWER(buyer_id) = #{userId}
+		  						buyer_id = #{userId}
 		  						<if test='!beginDate.equals("") and !endDate.equals("")'>
 			  						<if test='endDate.equals("SYSDATE")'>
 			  							AND  order_data BETWEEN #{beginDate} AND SYSDATE
