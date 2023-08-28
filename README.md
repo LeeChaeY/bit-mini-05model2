@@ -1,0 +1,1 @@
+# bit-mini-05model2
