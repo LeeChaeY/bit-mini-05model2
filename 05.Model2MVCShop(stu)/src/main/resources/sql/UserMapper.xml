@@ -83,7 +83,7 @@
   					<where>
   						<if test='searchCondition != null and searchKeyword != null and !searchKeyword.equals("")'>
 	  						<if test='searchCondition.equals("0")'>
-	  							LOWER(user_id) = LOWER(#{searchKeyword})
+	  							user_id = #{searchKeyword}
 	  						</if>
 	  						<if test='searchCondition.equals("1")'>
 	  							LOWER(user_name) LIKE LOWER(#{searchKeyword})
@@ -100,7 +100,7 @@
 			  					<where>
 			  					<if test='search.searchCondition != null and search.searchKeyword != null and !search.searchKeyword.equals("")'>
 				  						<if test='search.searchCondition.equals("0")'>
-				  							LOWER(user_id) = LOWER(#{search.searchKeyword})
+				  							user_id = #{search.searchKeyword}
 				  						</if>
 				  						<if test='search.searchCondition.equals("1")'>
 				  							LOWER(user_name) LIKE LOWER(#{search.searchKeyword})

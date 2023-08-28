@@ -49,9 +49,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> getUserList(Search search) throws Exception {
-		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals(""))
-			search.setSearchKeyword("%"+search.getSearchKeyword().toLowerCase()+"%");
-		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("startRowNum", (search.getCurrentPage()-1) * search.getPageSize() + 1);
@@ -62,8 +59,6 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public int getTotalCount(Search search) throws Exception {
-		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals(""))
-			search.setSearchKeyword("%"+search.getSearchKeyword().toLowerCase()+"%");
 		
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}

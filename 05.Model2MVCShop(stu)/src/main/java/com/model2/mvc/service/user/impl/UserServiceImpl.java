@@ -45,6 +45,13 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public Map<String,Object> getUserList(Search search) throws Exception {
+		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals("")) {
+			if (search.getSearchCondition().equals("0"))
+				search.setSearchKeyword(search.getSearchKeyword());
+			else if(search.getSearchCondition().equals("1"))
+				search.setSearchKeyword("%"+search.getSearchKeyword().toLowerCase()+"%");
+		}
+		
 		int totalCount = userDao.getTotalCount(search);
 		System.out.println("totalCount :: "+totalCount);
 		

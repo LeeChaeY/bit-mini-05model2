@@ -27,7 +27,11 @@ import com.model2.mvc.service.purchase.PurchaseService;
  * ㅇ @Test : 테스트 실행 소스 지정
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+																	"classpath:config/context-aspect.xml",
+																	"classpath:config/context-mybatis.xml",
+																	"classpath:config/context-transaction.xml" })
 public class PurchaseServiceTest {
 
 	//==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
@@ -40,7 +44,7 @@ public class PurchaseServiceTest {
 
 		Purchase purchase = new Purchase();
 		purchase.setBuyer(new User("testUserId"));
-		purchase.setPurchaseProd(new Product(10010));
+		purchase.setPurchaseProd(new Product(10012));
 		purchase.setPaymentOption("0");
 		purchase.setReceiverName("testReceiverName");
 		purchase.setReceiverPhone("010-1111-2222");
@@ -50,15 +54,15 @@ public class PurchaseServiceTest {
 
 		purchaseService.addPurchase(purchase);
 
-		purchase = purchaseService.getPurchase(10010);
+		purchase = purchaseService.getPurchase(10013);
 
 		//==> console 확인
 		System.out.println(purchase);
 
 		//==> API 확인
 		Assert.assertEquals("testUserId", purchase.getBuyer().getUserId());
-		Assert.assertEquals(10010, purchase.getPurchaseProd().getProdNo());
-		Assert.assertEquals('0', purchase.getPaymentOption());
+		Assert.assertEquals(10012, purchase.getPurchaseProd().getProdNo());
+		Assert.assertEquals("0", purchase.getPaymentOption());
 		Assert.assertEquals("testReceiverName", purchase.getReceiverName());
 		Assert.assertEquals("010-1111-2222", purchase.getReceiverPhone());
 		Assert.assertEquals("testDivyAddr", purchase.getDivyAddr());
@@ -74,14 +78,14 @@ public class PurchaseServiceTest {
 
 		Purchase purchase = new Purchase();
 
-		purchase = purchaseService.getPurchase(10011);
+		purchase = purchaseService.getPurchase(10013);
 		
 		//==> console 확인
 		System.out.println(purchase);
 
 		//==> API 확인
 		Assert.assertEquals("testUserId", purchase.getBuyer().getUserId());
-		Assert.assertEquals(10010, purchase.getPurchaseProd().getProdNo());
+		Assert.assertEquals(10012, purchase.getPurchaseProd().getProdNo());
 		Assert.assertEquals("0", purchase.getPaymentOption());
 		Assert.assertEquals("testReceiverName", purchase.getReceiverName());
 		Assert.assertEquals("010-1111-2222", purchase.getReceiverPhone());
@@ -94,7 +98,7 @@ public class PurchaseServiceTest {
 //	@Test
 	public void testUpdateUser() throws Exception{
 
-		Purchase purchase = purchaseService.getPurchase(10011);
+		Purchase purchase = purchaseService.getPurchase(10013);
 		Assert.assertNotNull(purchase);
 
 //		Assert.assertEquals("testUserId", purchase.getBuyer().getUserId());
@@ -116,7 +120,7 @@ public class PurchaseServiceTest {
 
 		purchaseService.updatePurchase(purchase);
 
-		purchase = purchaseService.getPurchase(10001);
+		purchase = purchaseService.getPurchase(10013);
 		Assert.assertNotNull(purchase);
 
 		//==> console 확인
@@ -124,7 +128,7 @@ public class PurchaseServiceTest {
 
 		//==> API 확인
 		Assert.assertEquals("testUserId", purchase.getBuyer().getUserId());
-		Assert.assertEquals(10010, purchase.getPurchaseProd().getProdNo());
+		Assert.assertEquals(10012, purchase.getPurchaseProd().getProdNo());
 		Assert.assertEquals("1", purchase.getPaymentOption());
 		Assert.assertEquals("changeReceiverName", purchase.getReceiverName());
 		Assert.assertEquals("010-8888-9999", purchase.getReceiverPhone());
@@ -135,7 +139,7 @@ public class PurchaseServiceTest {
 	}
 
 	//==>  주석을 풀고 실행하면....
-//		 @Test
+//	@Test
 	public void testGetPurchaseListAll() throws Exception{
 		String userId = "testUserId";
 
@@ -170,7 +174,7 @@ public class PurchaseServiceTest {
 		System.out.println(totalCount);
 	}
 
-//		 @Test
+//	@Test
 	public void testGetPurchaseListByDate() throws Exception{
 		String userId = "testUserId";
 
@@ -197,7 +201,7 @@ public class PurchaseServiceTest {
 		map = purchaseService.getPurchaseList(search, userId);
 
 		list = (List<Object>)map.get("list");
-		Assert.assertEquals(1, list.size());
+		Assert.assertEquals(0, list.size());
 
 		//==> console 확인
 		//System.out.println(list);
@@ -206,7 +210,7 @@ public class PurchaseServiceTest {
 		System.out.println(totalCount);
 	}
 
-		 @Test
+//	@Test
 	public void testGetPurchaseListBySysdate() throws Exception{
 		String userId = "testUserId";
 
@@ -218,7 +222,7 @@ public class PurchaseServiceTest {
 		Map<String,Object> map = purchaseService.getPurchaseList(search, userId);
 
 		List<Object> list = (List<Object>)map.get("list");
-		Assert.assertEquals(3, list.size());
+		Assert.assertEquals(1, list.size());
 
 		//==> console 확인
 		System.out.println(list);
@@ -233,7 +237,7 @@ public class PurchaseServiceTest {
 		map = purchaseService.getPurchaseList(search, userId);
 
 		list = (List<Object>)map.get("list");
-		Assert.assertEquals(3, list.size());
+		Assert.assertEquals(0, list.size());
 
 		//==> console 확인
 		System.out.println(list);
@@ -242,5 +246,43 @@ public class PurchaseServiceTest {
 		System.out.println(totalCount);
 	}	 
 
+//	@Test
+	public void testUpdateTranCode() throws Exception{
+		Purchase purchase = new Purchase();
+		purchase.setTranNo(10013);
+		purchase.setTranCode("2");
+		purchase.setPurchaseProd(new Product(10012));
+		
+		purchaseService.updateTranCode(purchase);
 
+		purchase = purchaseService.getPurchase(10013);
+		Assert.assertNotNull(purchase);
+
+		//==> console 확인
+		System.out.println(purchase);
+
+		//==> API 확인
+		Assert.assertEquals("3", purchase.getTranCode());
+
+	}
+	
+//	@Test
+	public void testUpdateTranCodeByProd() throws Exception{
+		Purchase purchase = new Purchase();
+		purchase.setTranNo(10013);
+		purchase.setTranCode("3");
+		purchase.setPurchaseProd(new Product(10012));
+		
+		purchaseService.updateTranCode(purchase);
+
+		purchase = purchaseService.getPurchase(10013);
+		Assert.assertNotNull(purchase);
+
+		//==> console 확인
+		System.out.println(purchase);
+
+		//==> API 확인
+		Assert.assertEquals("4", purchase.getTranCode());
+
+	}
 }

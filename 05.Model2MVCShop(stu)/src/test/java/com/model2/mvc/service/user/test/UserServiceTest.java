@@ -25,7 +25,11 @@ import com.model2.mvc.service.user.UserService;
  * ㅇ @Test : 테스트 실행 소스 지정
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+//@ContextConfiguration(locations = { "classpath:config/context-*.xml" })
+@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
+																	"classpath:config/context-aspect.xml",
+																	"classpath:config/context-mybatis.xml",
+																	"classpath:config/context-transaction.xml" })
 public class UserServiceTest {
 
 	//==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
@@ -97,7 +101,7 @@ public class UserServiceTest {
 		Assert.assertNotNull(userService.getUser("user05"));
 	}
 	
-	@Test
+//	@Test
 	 public void testUpdateUser() throws Exception{
 		 
 		User user = userService.getUser("testUserId");
@@ -162,7 +166,7 @@ public class UserServiceTest {
 	}
 	
 	 //==>  주석을 풀고 실행하면....
-//	 @Test
+	 @Test
 	 public void testGetUserListAll() throws Exception{
 		 
 	 	Search search = new Search();
@@ -211,7 +215,7 @@ public class UserServiceTest {
 	 	Assert.assertEquals(1, list.size());
 	 	
 		//==> console 확인
-	 	//System.out.println(list);
+//	 	System.out.println("==================================="+list);
 	 	
 	 	Integer totalCount = (Integer)map.get("totalCount");
 	 	System.out.println(totalCount);
@@ -232,7 +236,7 @@ public class UserServiceTest {
 	 	System.out.println(totalCount);
 	 }
 	 
-//	 @Test
+	 @Test
 	 public void testGetUserListByUserName() throws Exception{
 		 
 	 	Search search = new Search();
