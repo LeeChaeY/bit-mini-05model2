@@ -92,7 +92,7 @@
   					</where>
   					) countTable
   	</select>
-
+   
   	<select 	id="getUserList" parameterType="map" resultMap="userSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
