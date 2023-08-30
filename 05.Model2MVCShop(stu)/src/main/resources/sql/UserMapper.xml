@@ -78,13 +78,8 @@
   	</delete>
   	
   	<select id="getTotalCount" parameterType="search" resultType="int">
-<<<<<<< HEAD
   		SELECT COUNT(*) AS totalCount  
   		FROM (SELECT *  FROM  users    
-=======
-  		SELECT COUNT(*) AS totalCount  
-  		FROM (SELECT *  FROM  users     
->>>>>>> refs/heads/master
   					<where>
   						<if test='searchCondition != null and searchKeyword != null and !searchKeyword.equals("")'>
 	  						<if test='searchCondition.equals("0")'>
